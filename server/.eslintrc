@@ -1,0 +1,23 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "indent": [
+            "error",
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "eqeqeq": [
+            "error",
+            "always",
+            {
+                "null": "ignore"
+            }
+		],
+		"no-tabs": "off",
+		"no-underscore-dangle": "off",
+		"no-plusplus": "off",
+		"no-return-assign": "off"
+	}
+}
