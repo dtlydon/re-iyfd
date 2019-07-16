@@ -5,16 +5,28 @@ const port = 3001;
 const accountRoutes = require('./apis/account');
 const entriesRoutes = require('./apis/entries');
 const matchUpRoutes = require('./apis/matchup');
-const { getUserFromRequest } = require('./common/responseHelper');
+const choicesRoutes = require('./apis/choices');
+const scoreRoutes = require('./apis/score');
+const { getUserFromRequest, sendError } = require('./common/responseHelper');
 
 function buildRoute(api) {
 	api.routes.forEach((route) => {
 		app[route.method](`${api.baseRoute}${route.path}`, async (req, res) => {
-			let token;
-			if (route.secure || route.role != null) {
-				token = await getUserFromRequest(req, res);
-				if (token == null) return;
-				if (route.role != null && token.role < route.role) {
+			const token = await getUserFromRequest(req, res);
+			if (route.role != null) {
+				if (token == null || (route.role != null && token.role < route.role)) {
+					res.status(401);
+					res.end();
+					return;
+				}
+			}
+			if (route.checkUser) {
+				if (!req.params.userId) {
+					sendError('Request requires a userId which was not supplied');
+					return;
+				}
+				const { userId } = req.params;
+				if (token.role < 2 && !token.users.find(u => u.id === userId)) {
 					res.status(401);
 					res.end();
 					return;
@@ -26,7 +38,7 @@ function buildRoute(api) {
 }
 
 function buildRoutes() {
-	const apis = [accountRoutes, entriesRoutes, matchUpRoutes];
+	const apis = [accountRoutes, entriesRoutes, matchUpRoutes, choicesRoutes, scoreRoutes];
 	apis.forEach((api) => {
 		buildRoute(api);
 	});

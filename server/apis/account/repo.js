@@ -36,9 +36,15 @@ const updateUsersById = async (users, id) => {
 	return result;
 };
 
+const getAllAccounts = async () => {
+	await initialize;
+	return accountCollection.find({}).toArray();
+};
+
 module.exports = {
 	createAccount,
 	getAccountByEmail,
 	getAccountById,
 	updateUsersById,
+	getAllAccounts,
 };

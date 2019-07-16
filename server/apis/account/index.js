@@ -4,7 +4,7 @@ const _ = require('lodash');
 const ObjectId = require('mongodb').ObjectID;
 const { checkRequiredField, sendError } = require('../../common/responseHelper');
 const {
-	createAccount, getAccountByEmail, getAccountById, updateUsersById,
+	createAccount, getAccountByEmail, getAccountById, updateUsersById, getAllAccounts,
 } = require('./repo');
 
 const baseRoute = '/account';
@@ -39,16 +39,18 @@ PrpijIRnraWE/BhHt4YS4TKAd8p6xEIeNLtL0BeDEOFGGx4n/+k=
 -----END RSA PRIVATE KEY-----
 `;
 
-const _createToken = (email, id, role) => {
+const _createToken = (email, id, role, users) => {
 	const token = jws.sign({
 		header: { alg: 'RS256' },
-		payload: JSON.stringify({ id, email, role }),
+		payload: JSON.stringify({
+			id, email, role, users,
+		}),
 		secret,
 	});
 	return token;
 };
 
-const _accountToWire = account => _.omit(account, ['_id']);
+const _accountToWire = account => _.omit(account, ['_id', 'password']);
 
 const login = async (req, res) => {
 	const { body } = req;
@@ -63,7 +65,7 @@ const login = async (req, res) => {
 		sendError(res, 'Invalid email or password');
 		return;
 	}
-	const token = _createToken(account.email, account._id, account.role);
+	const token = _createToken(account.email, account._id, account.role, account.users);
 	res.send({ token });
 	res.end();
 };
@@ -77,7 +79,7 @@ const register = async (req, res) => {
 	if (!validated) return;
 	const encryptedPass = await bcryptjs.hash(body.password, 10);
 	const account = await createAccount(body.email, encryptedPass);
-	const token = _createToken(account.email, account._id, 0);
+	const token = _createToken(account.email, account.id, 0);
 	res.send({ token });
 	res.end();
 };
@@ -90,12 +92,20 @@ const addUser = async (req, res, token) => {
 	const users = account.users || [];
 	users.push({ id: new ObjectId(), user: body.user });
 	await updateUsersById(users, token.id);
+	const newToken = _createToken(account.email, account._id, account.role, users);
+	res.send({ token: newToken });
 	res.end();
 };
 
 const getAccount = async (req, res, token) => {
 	const account = await getAccountById(token.id);
 	res.send({ account: _accountToWire(account) });
+	res.end();
+};
+
+const getAll = async (req, res) => {
+	const accounts = await getAllAccounts();
+	res.send({ accounts: accounts.map(_accountToWire) });
 	res.end();
 };
 
@@ -111,12 +121,17 @@ const routes = [{
 	method: 'post',
 	path: '/add-user',
 	handler: addUser,
-	secure: true,
+	role: 0,
 }, {
 	method: 'get',
 	path: '/',
 	handler: getAccount,
-	secure: true,
+	role: 0,
+}, {
+	method: 'get',
+	path: '/all',
+	handler: getAll,
+	role: 2,
 }];
 
 module.exports = {

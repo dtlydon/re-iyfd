@@ -24,6 +24,20 @@ const _getRegion = (matchUp, newRound) => {
 	return 'finals';
 };
 
+const _getIsLargeSeed = (seed, maxSeed, round, region, newRegion) => {
+	if (round < 5) {
+		return seed > maxSeed;
+	}
+	if (round === 5) {
+		if (newRegion === 'sw') {
+			return region === 'w';
+		}
+		return region === 'mw';
+	}
+
+	return region === 'sw';
+};
+
 const getMatchUps = async (req, res) => {
 	const matchUps = await findMatchUps();
 	const viewMatchUps = await Promise.all(
@@ -53,9 +67,9 @@ const pickMatchWinner = async (req, res) => {
 	const newRound = matchUp.round + 1;
 	const maxSeed = 16 / (2 ** newRound);
 	const { seed } = matchUp;
-	const isLargerSeed = seed > maxSeed;
-	const newSeed = isLargerSeed ? (maxSeed * 2) - seed + 1 : seed;
 	const region = _getRegion(matchUp, newRound);
+	const isLargerSeed = _getIsLargeSeed(seed, maxSeed, newRound, matchUp.region, region);
+	const newSeed = Math.max(isLargerSeed ? (maxSeed * 2) - seed + 1 : seed, 1);
 	const existingMatchUp = await findNextMatchUp(newSeed, newRound, region);
 	if (existingMatchUp) {
 		if (isLargerSeed) {
@@ -67,7 +81,7 @@ const pickMatchWinner = async (req, res) => {
 	} else {
 		const newMatchUp = {
 			round: matchUp.round + 1,
-			region: matchUp.region,
+			region,
 			seed: newSeed,
 		};
 		if (isLargerSeed) {

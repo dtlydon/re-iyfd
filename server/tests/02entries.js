@@ -1,8 +1,7 @@
 const axios = require('axios'); // eslint-disable-line
 const assert = require('assert');
-const mongoClient = require('mongodb').MongoClient;
-const { describe, it, after } = require('mocha'); // eslint-disable-line
-const { getToken, setToken } = require('./helpers/token');
+const { describe, it } = require('mocha'); // eslint-disable-line
+const { getToken } = require('./helpers/token');
 
 const baseUrl = 'http://localhost:3001';
 const entries = [];
@@ -22,37 +21,6 @@ for (let i = 0; i < 64; i++) {
 let editEntry;
 
 describe('Entries', () => {
-	it('should fail, not an admin', async () => {
-		try {
-			await axios.post(`${baseUrl}/entries`, { entries }, { headers: { token: getToken() } });
-			assert(false);
-		} catch (err) {
-			assert.equal(err.response.status, 401);
-		}
-	});
-
-	it('should be an admin', async () => {
-		try {
-			const email = 'dtlydon@gmail.com';
-			const password = 'Test1234';
-			const url = 'mongodb://localhost:27017';
-			const dbName = 'iyfd';
-			const client = await mongoClient.connect(url, { useNewUrlParser: true });
-			const db = client.db(dbName);
-			await db.collection('accounts').updateOne({ email }, { $set: { role: 2 } });
-			const response = await axios.post(`${baseUrl}/account/login`, { email, password });
-			assert.equal(response.status, 200);
-			setToken(response.data.token); // eslint-disable-line
-			assert(response.data.token != null);
-			const accountResponse = await axios.get(`${baseUrl}/account`, { headers: { token: getToken() } });
-			const { account } = accountResponse.data;
-			assert.equal(account.role, 2);
-		} catch (err) {
-			console.log(err);
-			assert(false);
-		}
-	});
-
 	it('should fail, too many entries', async () => {
 		try {
 			entries.push({ rank: 5, region: 'n', team: 'haha' });

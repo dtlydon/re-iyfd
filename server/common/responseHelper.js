@@ -13,11 +13,9 @@ const checkRequiredField = (field, name, res) => {
 	return true;
 };
 
-const getUserFromRequest = (req, res) => {
-	if (!req.headers || !req.headers.token) {
-		res.status(401);
-		return null;
-	}
+const getUserFromRequest = (req) => {
+	if (!req.headers || !req.headers.token) return null;
+
 	const { token } = req.headers;
 	const decoded = jws.decode(token);
 	return JSON.parse(decoded.payload);

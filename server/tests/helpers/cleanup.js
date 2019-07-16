@@ -8,17 +8,18 @@ const cleanup = async () => {
 	try {
 		await db.collection('accounts').drop();
 	} catch (e) {
-		console.log(e);
 	}
 	try {
 		await db.collection('entries').drop();
 	} catch (e) {
-		console.log(e);
 	}
 	try {
 		await db.collection('matchups').drop();
 	} catch (e) {
-		console.log(e);
+	}
+	try {
+		await db.collection('choices').drop();
+	} catch (e) {
 	}
 	process.exit();
 };
