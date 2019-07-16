@@ -21,6 +21,43 @@ const pickWinnersPerRound = async (round) => {
 	return response2.data.matchUps;
 };
 
+const simUserPicksPerRound = async (round) => {
+	let pickFirstEntry = true;
+	const promises = userChoices.filter(x => x.round === round).map(async (userChoice) => {
+		const choiceId = userChoice._id;
+		const choice = pickFirstEntry ? userChoice.entry1._id : userChoice.entry2._id;
+		pickFirstEntry = !pickFirstEntry;
+		return axios.put(`${baseUrl}/choices/${testUserId}`, { choiceId, choice, matchUpId: userChoice.matchUpId }, getBasicHeaders());
+	});
+	await Promise.all(promises);
+};
+
+const computeMatchUpLength = (round) => {
+	let length = 32;
+	for (let i = 0; i < round; i++) {
+		length += (16 / (2 ** i));
+	}
+	return length;
+};
+
+const simRoundCompletion = async (round) => {
+	const matchUps = await pickWinnersPerRound(round);
+	assert.equal(matchUps.length, computeMatchUpLength(round));
+	matchUps.filter(m => m.round === round).forEach((matchUp) => {
+		assert.equal(matchUp.winner, matchUp.entry1._id);
+	});
+	matchUps.filter(m => m.round === round + 1).forEach((m) => {
+		assert.equal(m.entry1.rank + m.entry2.rank, 1 + Math.max((8 / (2 ** (round - 1))), 1));
+		assert.equal(m.entry1.region, m.entry2.region);
+	});
+};
+
+const refreshUserChoices = async () => {
+	const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+	// eslint-disable-next-line prefer-destructuring
+	userChoices = choiceResponse.data.userChoices;
+};
+
 describe('SimulateTourny', () => {
 	it('should get all user choices', async () => {
 		const response = await axios.get(`${baseUrl}/account`, getBasicHeaders());
@@ -46,14 +83,7 @@ describe('SimulateTourny', () => {
 		assert.equal(choiceResponse.status, 200);
 	});
 	it('should make basic first round choices', async () => {
-		let isOne = true;
-		const promises = userChoices.map(async (userChoice) => {
-			const choiceId = userChoice._id;
-			const choice = isOne ? userChoice.entry1._id : userChoice.entry2._id;
-			isOne = !isOne;
-			return axios.put(`${baseUrl}/choices/${testUserId}`, { choiceId, choice }, getBasicHeaders());
-		});
-		await Promise.all(promises);
+		await simUserPicksPerRound(1);
 		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
 		choiceResponse.data.userChoices.forEach(choice => assert(choice.choice != null));
 	});
@@ -76,29 +106,79 @@ describe('SimulateTourny', () => {
 	});
 
 	it('should complete the first round', async () => {
-		const matchUps = await pickWinnersPerRound(1);
-		assert.equal(matchUps.length, 48);
-		matchUps.filter(m => m.round === 1).forEach((matchUp) => {
-			assert.equal(matchUp.winner, matchUp.entry1._id);
-		});
-		matchUps.filter(m => m.round === 2).forEach((m) => {
-			assert.equal(m.entry1.rank + m.entry2.rank, 9);
-			assert.equal(m.entry1.region, m.entry2.region);
-		});
+		await simRoundCompletion(1);
 	});
 
-	it('should have a score', async () => {
+	it('should prevent picks after winner is selected', async () => {
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		const userChoice = choiceResponse.data.userChoices[0];
+		assert.equal(userChoice.choice, userChoice.entry1._id);
+		const choiceId = userChoice._id;
+		try {
+			await axios.put(`${baseUrl}/choices/${testUserId}`, { choiceId, choice: userChoice.entry2._id, matchUpId: userChoice.matchUpId }, getBasicHeaders());
+			assert(false);
+		} catch (err) {
+			assert.equal(err.response.data.error, 'Invalid attempt, match up has been completed.');
+		}
+	});
+
+	it('should have first round score', async () => {
 		const response = await axios.get(`${baseUrl}/score`);
 		assert.equal(response.status, 200);
 		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
 		assert.equal(basicUser.score, 16);
 	});
 
-	it('should complete tourny', async () => {
-		const matchUps3 = await pickWinnersPerRound(2);
-		assert.equal(matchUps3.length, 56);
-		const matchUps4 = await pickWinnersPerRound(3);
-		assert.equal(matchUps4.length, 60);
+	it('should make basic second round choices', async () => {
+		await refreshUserChoices();
+		await simUserPicksPerRound(2);
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		choiceResponse.data.userChoices
+			.filter(x => x.round === 2)
+			.forEach(choice => assert(choice.choice != null));
+	});
+
+	it('should complete the second round', async () => {
+		await simRoundCompletion(2);
+	});
+
+	it('should have second round score', async () => {
+		const response = await axios.get(`${baseUrl}/score`);
+		assert.equal(response.status, 200);
+		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
+		assert.equal(basicUser.score, 32);
+	});
+
+	it('should make basic third round choices', async () => {
+		await refreshUserChoices();
+		await simUserPicksPerRound(3);
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		choiceResponse.data.userChoices
+			.filter(x => x.round === 3)
+			.forEach(choice => assert(choice.choice != null));
+	});
+
+	it('should complete the third round', async () => {
+		await simRoundCompletion(3);
+	});
+
+	it('should have third round score', async () => {
+		const response = await axios.get(`${baseUrl}/score`);
+		assert.equal(response.status, 200);
+		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
+		assert.equal(basicUser.score, 44);
+	});
+
+	it('should make basic fourth round choices', async () => {
+		await refreshUserChoices();
+		await simUserPicksPerRound(4);
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		choiceResponse.data.userChoices
+			.filter(x => x.round === 4)
+			.forEach(choice => assert(choice.choice != null));
+	});
+
+	it('should complete the fourth round', async () => {
 		const matchUps5 = await pickWinnersPerRound(4);
 		assert.equal(matchUps5.length, 62);
 		matchUps5.filter(m => m.round === 5).forEach((matchUp) => {
@@ -110,7 +190,49 @@ describe('SimulateTourny', () => {
 				assert.equal(matchUp.entry2.region, 'w');
 			}
 		});
+	});
+
+	it('should have fourth round score', async () => {
+		const response = await axios.get(`${baseUrl}/score`);
+		assert.equal(response.status, 200);
+		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
+		assert.equal(basicUser.score, 52);
+	});
+
+	it('should make basic fifth round choices', async () => {
+		await refreshUserChoices();
+		await simUserPicksPerRound(5);
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		choiceResponse.data.userChoices
+			.filter(x => x.round === 5)
+			.forEach(choice => assert(choice.choice != null));
+	});
+	it('should complete fifth round', async () => {
 		const matchUps6 = await pickWinnersPerRound(5);
 		assert.equal(matchUps6.length, 63);
+	});
+
+	it('should have fifth round score', async () => {
+		const response = await axios.get(`${baseUrl}/score`);
+		assert.equal(response.status, 200);
+		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
+		assert.equal(basicUser.score, 57);
+	});
+
+	it('should make basic final round choices', async () => {
+		await refreshUserChoices();
+		await simUserPicksPerRound(6);
+		const choiceResponse = await axios.get(`${baseUrl}/choices/${testUserId}`, getBasicHeaders());
+		choiceResponse.data.userChoices
+			.filter(x => x.round === 6)
+			.forEach(choice => assert(choice.choice != null));
+	});
+
+	it('should have final score', async () => {
+		await pickWinnersPerRound(6);
+		const response = await axios.get(`${baseUrl}/score`);
+		assert.equal(response.status, 200);
+		const basicUser = response.data.userScores.find(u => u.user.user === 'Test user 1');
+		assert.equal(basicUser.score, 63);
 	});
 });

@@ -24,7 +24,7 @@ const getScores = async (req, res) => {
 			userIdScore[choice.userId] = 0;
 		}
 		if (winnerMappings[choice.matchUpId] != null
-			&& choice.choice.equals(winnerMappings[choice.matchUpId].winner)) {
+			&& choice.choice != null && choice.choice.equals(winnerMappings[choice.matchUpId].winner)) {
 			userIdScore[choice.userId] += winnerMappings[choice.matchUpId].round;
 		}
 	});

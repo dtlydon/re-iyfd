@@ -1,8 +1,9 @@
 // const _ = require('lodash');
 // const { checkRequiredField, sendError } = require('../../common/responseHelper');
-const { findMatchUps } = require('../matchup/repo');
+const { findMatchUps, findMatchUp } = require('../matchup/repo');
 const { findUserChoicesById, insertUserChoice, updateUserChoice } = require('./repo');
 const { getEntryById } = require('../entries/repo');
+const { sendError } = require('../../common/responseHelper');
 
 const baseRoute = '/choices/:userId';
 
@@ -26,7 +27,7 @@ const getUserChoices = async (req, res) => {
 			const entry1 = await getEntryById(matchUp.entry1);
 			const entry2 = await getEntryById(matchUp.entry2);
 			return {
-				...choice, entry1, entry2,
+				...choice, entry1, entry2, round: matchUp.round,
 			};
 		}),
 	);
@@ -36,7 +37,13 @@ const getUserChoices = async (req, res) => {
 };
 
 const makePick = async (req, res) => {
-	const { choiceId, choice } = req.body;
+	const { choiceId, choice, matchUpId } = req.body;
+	const matchUp = await findMatchUp(matchUpId);
+	if (matchUp.winner != null) {
+		sendError(res, 'Invalid attempt, match up has been completed.');
+		res.end();
+		return;
+	}
 	await updateUserChoice(choiceId, choice);
 	res.end();
 };
