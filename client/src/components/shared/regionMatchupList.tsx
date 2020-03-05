@@ -23,10 +23,11 @@ const RegionMatchupList = (props: RegionMatchUpListProps) => {
   } = props;
   const regionUserChoices: { [region: string]: UserChoice[] } = {};
   for (const choice of userChoices) {
-    if (!regionUserChoices[choice.matchUp.entry1.region]) {
-      regionUserChoices[choice.matchUp.entry1.region] = [];
+    const entry = choice.matchUp.entry1 || choice.matchUp.entry2;
+    if (!regionUserChoices[entry.region]) {
+      regionUserChoices[entry.region] = [];
     }
-    regionUserChoices[choice.matchUp.entry1.region].push(choice);
+    regionUserChoices[entry.region].push(choice);
   }
   return (
     <Row>
