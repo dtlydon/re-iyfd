@@ -221,7 +221,7 @@ const forgotPassword = async (req, res) => {
       from: "The Commish <commish@inyourfacedisgrace.com>",
       to: email,
       subject: "Password reset",
-      text: `Follow this link to reset your password: ${process.env.WEB_APP_URL}/account/set-password?email=${email}&resetToken=${resetToken}`
+      text: `Follow this link to reset your password: ${process.env.WEB_APP_URL}/account/set-password?email=${encodeURIComponent(email)}&resetToken=${resetToken}`
     };
     console.log("data", data);
     await _sendEmail(data);
