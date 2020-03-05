@@ -31,7 +31,7 @@ const getUserChoices = async (req, res) => {
     findMatchUps(),
   ]);
   const newChoicePromises = matchUps.map(async (matchUp) => {
-    if (!currentChoices.find(choice => choice.matchUpId.equals(matchUp._id))) {
+    if (!currentChoices || !currentChoices.find(choice => choice.matchUpId.equals(matchUp._id))) {
       return insertUserChoice({
         userId,
         matchUpId: matchUp._id,

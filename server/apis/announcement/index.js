@@ -25,6 +25,10 @@ const getAnnouncement = async (req, res) => {
   res.set("accept-ranges", "bytes");
 
   const file = await filesCollection.findOne({});
+  if (!file) {
+    res.sendStatus(404);
+    return;
+  }
   const db = await iyfdDb.getDb();
   let bucket = new mongodb.GridFSBucket(db, {
     bucketName: "tracks"
