@@ -75,8 +75,8 @@ const login = async (req, res) => {
   res.end();
 };
 
-const refreshToken = async (req, res, token) => {
-  const account = await getAccountById(token.id);
+const refreshToken = async (req, res, t) => {
+  const account = await getAccountById(t.id);
   const token = _createToken(
     account.email,
     account._id,
