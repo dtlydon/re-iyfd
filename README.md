@@ -8,12 +8,8 @@ Install yarn
 Install git
 Install mongodb
 
-Setup nginx with two apps
-- `/` pointed to client
-- `/server` pointed to server
-
+Use `nginx` file as configuration
 Build react locally and scp
-`scp -i .pem /* /build`
-chmod the build file
-
+`scp -i .pem -r build {ec2-directory}`
+Make sure permission work ^ `chmod`
 Run the servers via pm2 + npm
