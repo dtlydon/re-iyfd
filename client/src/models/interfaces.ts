@@ -1,22 +1,28 @@
-import {region} from './types';
+import { region } from "./types";
 
 export interface TournyEntry {
-	id: string,
-	team: string,
-	region: region,
-	rank: number,
-	teamId?: string
-}
-
-export interface Team {
-	id: string,
-	name: string
+  _id: string;
+  team: string;
+  region: region;
+  rank: number;
 }
 
 export interface MatchUp {
-	id: string,
-	entry1Id: string,
-	entry1Name: string,
-	entry2Id: string,
-	entry2Name: string
+  _id: string;
+  entry1: TournyEntry;
+  entry2: TournyEntry;
+  winner: string;
+  round: number;
+  blocked: boolean;
+}
+
+export interface UserChoiceUpdate {
+  choice: string; // Entry Id
+  matchUpId: string;
+}
+
+export interface UserChoice {
+  _id: string;
+  choice: string;
+  matchUp: MatchUp;
 }

@@ -4,37 +4,53 @@ const iyfdDb = require('../../common/iyfd-db');
 let choicesCollection;
 
 const init = async () => {
-	choicesCollection = await iyfdDb.getCollection('choices');
+  choicesCollection = await iyfdDb.getCollection('choices');
 };
 
 const initialize = init();
 
 const findUserChoices = async () => {
-	await initialize;
-	return choicesCollection.find({}).toArray();
+  await initialize;
+  return choicesCollection.find({}).toArray();
 };
 
 const findUserChoicesById = async (userId) => {
-	await initialize;
-	return choicesCollection.find({ userId }).toArray();
+  await initialize;
+  return choicesCollection.find({
+    userId
+  }).toArray();
+};
+
+const findUserChoiceByMatchUpId = async (userId, matchUpId) => {
+  await initialize;
+  const result = await choicesCollection.findOne({
+    userId,
+    matchUpId: ObjectId(matchUpId)
+  });
+  return result;
 };
 
 const insertUserChoice = async (choice) => {
-	await initialize;
-	return choicesCollection.insertOne(choice);
+  await initialize;
+  return choicesCollection.insertOne(choice);
 };
 
 const updateUserChoice = async (id, choice) => {
-	await initialize;
-	return choicesCollection.updateOne(
-		{ _id: ObjectId(id) },
-		{ $set: { choice: ObjectId(choice), lastUpdated: Date.now() } },
-	);
+  await initialize;
+  return choicesCollection.updateOne({
+    _id: ObjectId(id)
+  }, {
+    $set: {
+      choice: ObjectId(choice),
+      lastUpdated: Date.now()
+    }
+  }, );
 };
 
 module.exports = {
-	findUserChoices,
-	findUserChoicesById,
-	insertUserChoice,
-	updateUserChoice,
+  findUserChoices,
+  findUserChoicesById,
+  findUserChoiceByMatchUpId,
+  insertUserChoice,
+  updateUserChoice,
 };
