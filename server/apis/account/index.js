@@ -208,7 +208,7 @@ const forgotPassword = async (req, res) => {
     const resetTokenExpiration = moment()
       .add(1, "day")
       .toDate();
-    await updateResetToken(existingAccount.id, {
+    await updateResetToken(existingAccount._id, {
       resetToken,
       resetTokenExpiration
     });
