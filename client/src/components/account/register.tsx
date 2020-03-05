@@ -30,6 +30,12 @@ const Register: FC = () => {
     try {
       // Add users
       await accountService.addUsers(users);
+      const refreshData = await accountService.refresh();
+      if (!refreshData.token) return;
+      localStorage.setItem(
+        configuration.localStorageKeys.accountToken,
+        refreshData.token
+      );
       history.push("/play");
     } catch (err) {
       setErrorMessage(

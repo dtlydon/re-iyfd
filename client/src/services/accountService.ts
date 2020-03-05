@@ -9,6 +9,8 @@ const register = async (email: string, password: string) => {
   return iyfdHttp("post", `${accountUrl}/register`, { email, password });
 };
 
+const refresh = async () => iyfdHttp("get", `${accountUrl}/refresh`);
+
 const addUsers = async (users: string[]) => {
   accountSettings = null;
   return iyfdHttp("post", `${accountUrl}/add-users`, { users });
@@ -53,5 +55,6 @@ export default {
   getAccount,
   getAllAccounts,
   resetPassword,
-  setPassword
+  setPassword,
+  refresh
 };

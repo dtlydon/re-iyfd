@@ -75,6 +75,20 @@ const login = async (req, res) => {
   res.end();
 };
 
+const refreshToken = async (req, res, token) => {
+  const account = await getAccountById(token.id);
+  const token = _createToken(
+    account.email,
+    account._id,
+    account.role,
+    account.users
+  );
+  res.send({
+    token
+  });
+  res.end();
+};
+
 const register = async (req, res) => {
   const {
     body
@@ -245,6 +259,12 @@ const routes = [{
     method: "post",
     path: "/register",
     handler: register
+  },
+  {
+    method: "get",
+    path: "/refresh",
+    handler: refreshToken,
+    role: 0
   },
   {
     method: "post",
