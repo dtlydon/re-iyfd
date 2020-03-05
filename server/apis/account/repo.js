@@ -60,7 +60,7 @@ const getAllAccounts = async () => {
 const updateResetToken = async (id, tokens) => {
   await initialize;
   return accountCollection.updateOne({
-    _id: ObjectId
+    _id: id
   }, {
     $set: tokens
   });
