@@ -24,4 +24,9 @@ cd ../server
 yarn install
 pm2 start
 
-sudo nginx -c ~./{code}/nginx
+sudo nginx -c ~/{code}/nginx
+
+## Post deploy
+Create target + LB
+Create cloudfront distro
+Create route53 A record

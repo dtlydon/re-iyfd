@@ -16,12 +16,15 @@ const checkRequiredField = (field, name, res) => {
 };
 
 const getUserFromRequest = (req) => {
+  console.log('headers', req.headers)
   if (!req.headers || !req.headers.token) return null;
 
   const {
     token
   } = req.headers;
+  console.log('t', token);
   const decoded = jws.decode(token);
+  console.log('decoded', decoded)
   if (!decoded) throw Error("Invalid user");
   return JSON.parse(decoded.payload);
 };
