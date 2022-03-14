@@ -59,7 +59,7 @@ function buildRoutes() {
   });
 }
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 buildRoutes();
 app.get("/", (req, res) => res.send("hello world"));

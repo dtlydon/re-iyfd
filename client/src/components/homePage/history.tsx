@@ -3,6 +3,16 @@ import { Table } from "react-bootstrap";
 
 const WINNERS = [
   {
+    year: "2021",
+    user: "IYFD worker strike",
+    team: "Baylor"
+  },
+  {
+    year: "2020",
+    user: "NO Tournament",
+    team: "NO Tournament"
+  },
+  {
     year: "2019",
     user: "Allison852",
     team: "Virginia"

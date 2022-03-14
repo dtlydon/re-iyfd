@@ -19,7 +19,7 @@ IT TAKES WAY TOO LONG ON THE SERVER
 `scp -i .pem -r build {ec2-directory}`
 Make sure permission work ^ `chmod`
 
-pm2 serve build 4000
+pm2 serve build 4000 --spa
 cd ../server
 yarn install
 pm2 start
@@ -27,6 +27,8 @@ pm2 start
 sudo nginx -c ~/{code}/nginx
 
 ## Post deploy
-Create target + LB
+Create target + LB - Origin is http - 80
 Create cloudfront distro
+- Cache policy = Disable cache
+- Origin request policy = AllViewer
 Create route53 A record

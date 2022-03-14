@@ -25,9 +25,12 @@ const Play: React.FC = () => {
     setUsers(data.account.users);
   };
   useEffect(() => {
-    if (!accountToken) return;
+    if (!accountToken) {
+      history.push('/account/register')
+      return;
+    }
     loadUsers();
-  }, [accountToken]);
+  }, [accountToken, users]);
 
   const onNavigate = (eventKey: any) => {
     history.push(`/play/${eventKey}`);

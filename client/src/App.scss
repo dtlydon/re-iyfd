@@ -6,3 +6,29 @@ $danger: #c0392b;
 $info: #1abc9c;
 $dark: #34495e;
 @import "bootstrap";
+
+.home-page {
+  h2 {
+    font-size: 2.25rem;
+    font-family: cursive;
+    font-weight: bold;
+
+  }
+  h3 {
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: bold;
+  }
+  h4 {
+    margin: 2rem 0;
+    padding: 1rem;
+    font-weight: bold;
+    border: solid 1px #000;
+  }
+  h5, h6 {
+    font-weight: bold;
+  }
+  h6 {
+    padding-left: 2rem;
+  }
+}

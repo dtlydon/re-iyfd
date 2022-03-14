@@ -26,7 +26,7 @@ const Admin: React.FC = () => {
     loadAccount();
   }, [accountToken]);
   return (
-    <div className="d-flex flex-column flex-medium-row">
+    <div className="d-flex flex-medium-row">
       <Nav variant="pills" className="flex-column mr-2">
         {Configuration.adminRoutes
           .filter(x => x.isBobRoute || role > 1)
@@ -38,11 +38,13 @@ const Admin: React.FC = () => {
             </Nav.Item>
           ))}
       </Nav>
-      {Configuration.adminRoutes
-        .filter(x => x.isBobRoute || role > 1)
-        .map(({ path, component, isExact }) => (
-          <Route exact={isExact} key={path} path={path} component={component} />
-        ))}
+      <div className='flex-grow-1'>
+        {Configuration.adminRoutes
+          .filter(x => x.isBobRoute || role > 1)
+          .map(({ path, component, isExact }) => (
+            <Route exact={isExact} key={path} path={path} component={component} />
+          ))}
+      </div>
     </div>
   );
 };
