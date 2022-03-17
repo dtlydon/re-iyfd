@@ -1,4 +1,5 @@
 import React from "react";
+import { tournySort } from '../../common/bracketSort';
 import { UserChoice } from "../../models/interfaces";
 import Matchup from "./matchup";
 
@@ -17,16 +18,19 @@ const MatchupList = (props: MatchUpListProps) => {
     onPick,
     onSetMatchUpBlocked
   } = props;
+  const sorted = tournySort(
+    userChoices
+      .filter(
+        x =>
+          x.matchUp.round === selectedRound &&
+          !!x.matchUp.entry1 &&
+          !!x.matchUp.entry2
+  ))
+  console.log('s', sorted)
   return (
     <div>
-      {userChoices
-        .filter(
-          x =>
-            x.matchUp.round === selectedRound &&
-            !!x.matchUp.entry1 &&
-            !!x.matchUp.entry2
-        )
-        .map((choice: UserChoice) => (
+      {
+        sorted.map((choice: UserChoice) => (
           <Matchup
             key={choice._id}
             matchUp={choice.matchUp}

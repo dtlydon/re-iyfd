@@ -58,6 +58,12 @@ const getUserChoices = async (req, res) => {
     }),
   );
 
+  userChoices.sort((a, b) => {
+    if (a.matchUp.seed > b.matchUp.seed) return 1;
+    else if (a.matchUp.seed < b.matchUp.seed) return -1;
+    else return 0;
+  })
+
   res.send({
     userChoices
   });

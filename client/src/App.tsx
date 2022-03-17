@@ -113,6 +113,7 @@ const App: React.FC = () => {
             process.env.REACT_APP_SERVER_URL
           }/announcement?c=${Date.now()}}`}
           controls
+          autoPlay
         >
           Not supported
         </audio>

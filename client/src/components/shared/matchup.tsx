@@ -54,7 +54,7 @@ const Matchup: React.FC<any> = (props: IMatchUpProps) => {
         disabled={isDisabled}
         onClick={() => !isDisabled && onPick(matchUp._id, matchUp.entry1._id)}
       >
-        <span>{matchUp.entry1.team}</span>
+        <span>{matchUp.entry1.rank}. {matchUp.entry1.team}</span>
       </Button>
       <Button
         className="mr-2"
@@ -62,7 +62,7 @@ const Matchup: React.FC<any> = (props: IMatchUpProps) => {
         disabled={isDisabled}
         onClick={() => !isDisabled && onPick(matchUp._id, matchUp.entry2._id)}
       >
-        <span>{matchUp.entry2.team}</span>
+        <span>{matchUp.entry2.rank}. {matchUp.entry2.team}</span>
       </Button>
       {isAdmin && onSetMatchUpBlocked && (
         <Button
