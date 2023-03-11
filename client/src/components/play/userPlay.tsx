@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { UserChoice } from "../../models/interfaces";
 import choicesService from "../../services/choicesService";
 import { getCurrentRound } from "../../common/utils";
