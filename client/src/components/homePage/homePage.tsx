@@ -1,38 +1,39 @@
 import React from "react";
 import { useHistory } from 'react-router';
-import logo from '../../assets/image1.png'
+import logo from '../../assets/image2.jpeg'
 
 const HomePage: React.FC = () => {
   const history = useHistory()
 
   return (
   <div className="home-page">
+    <img src={logo} alt="Logo"/>&nbsp;
     <h2>
-      <img src={logo} alt="Logo"/>&nbsp;
-      Green Chile Chevrolet of NM
+      America’s Top Forty
     </h2>
     <h3>presents</h3>
     <h3>In-Your-Face-Disgrace 39</h3>
-    <p>Yes, this is the 39th edition of In-Your-Face-Disgrace, the March Madness prediction pool that leaves the rest eating dust.  Our generous sponsors this year are the fine folks at Green Chile Chevrolet of New Mexico, with dealerships in Tucumcari, Claunch, Hatch – and soon, Chimayo!</p>
-    <h4>How to Play</h4>
-    <ol>
-      <li>-- Warm up your 402 horsepower bore-and-stroke engine.</li>
-      <li>-- Select the winner of each NCAA Division I Men's Basketball Tournament game, one round at a time.
-        <b>Ignore</b> those silly "First Four" play-in games on Tuesday and Wednesday, March 15 and 16.
-      </li>
-    </ol>
-    <p>You can enter more than one player.  You can enter under an <b>alias</b> (examples:  The Hot Rod, To The Levee, V-8).  Or just use your <b>real moniker</b>.  Your choice.</p>
-    <h5>First be sure to <button className="btn btn-primary" onClick={() => history.push('/account/register')}>Register</button></h5>
-    <h5>Then be sure to click on the audio clip start button to hear the sponsor’s  announcement and the current leaderboard</h5>
-    <h5>After that drive over to <button className="btn btn-primary" onClick={() => history.push('/play')}>Play</button></h5>
-    <p>Click on the icon for each team you predict will win each game.  Once each pick is recorded, you will get a confirmation.  That’s it.</p>
-    <h4>When to Make Your Picks</h4>
-    <h5>The first games begin at 11 a.m. on Thursday March 17, 2022.  </h5>
-    <h6>Round 1 picks are due before: 11 a.m. on March 17 (Thursday)</h6>
-    <h6>Round 2 picks are due before: 11 a.m. on March 19 (Saturday) </h6>
-    <h6>Sweet Sixteen picks are due  before: 11 a.m. on March 24 (Thursday)</h6>
-    <h6>Elite Eight picks are due before: 11 a.m. on March 26 (Saturday)</h6>
-    <h6>Final Four picks are due: no later than 3 p.m. on Saturday, April 2 for the Semifinals and 3 p.m. on Monday, April 4 for the Championship Game.</h6>
+    <p>The Big 4 – 0.  Yes, this is the 40th edition of In-Your-Face-Disgrace, the March Madness prediction pool that has topped the Top 40 charts like nobody else.</p>
+    <p>Our generous corporate sponsor this year is Casey Kasem’s A-T 40.</p>
+    <h4>Get Started</h4>
+    <p>Set your watch back to 1970.</p>
+    <p>
+      <b>Go to the Menu at the top of the page.</b>
+      &nbsp;Create your account and password. You can enter more than one player.
+      &nbsp;<b>You can play under an alias, such as Cool & the Gang, or maybe Green Day, or Pink, or even Bad Bunny.</b>
+      &nbsp;Or just use your real moniker. Your choice.
+    </p>
+    <p><b>Be sure to click on the audio clip start button to hear the sponsor’s  announcement and the current leaderboard</b></p>
+    <p><b>Use the Menu to CLICK on “Make Your Picks.”</b></p>
+    <p>Select the winner of each NCAA Division I Men's Basketball Tournament game, one round at a time.  <b>Ignore</b> those silly “First Four” play-in games on Tuesday and Wednesday, March 14 and 15. </p>
+    <p>Click on the icon for each team you predict will win each game.  Once each pick is recorded, you will get a confirmation.  That’s it!</p>
+    <p><b>Deadlines for Your Picks</b> Remember, the games begin at 11 a.m. Central Time on Thursday March 16, 2023.</p>
+    <p><b>Ignore the "First Four" games.</b></p>
+    <h6><b>Round 1 picks are due before:</b> 11 a.m. on March 16 (Thursday)</h6>
+    <h6><b>Round 2 picks are due before:</b> 11 a.m. on March 18 (Saturday) </h6>
+    <h6><b>Sweet Sixteen picks are due  before:</b> 11 a.m. on March 23 (Thursday)</h6>
+    <h6><b>Elite Eight picks are due before:</b> 11 a.m. on March 25 (Saturday)</h6>
+    <h6><b>Final Four picks are due:</b> no later than 3 p.m. on Saturday, April 1 for the Semifinals and 3 p.m. on Monday, April 3 for the Championship Game.</h6>
     <h4>Scoring</h4>
     <p><b>Each</b> correct pick will earn you: </p>
     <ul>
@@ -44,13 +45,13 @@ const HomePage: React.FC = () => {
       <li>In the National Championship game:  Six points </li>
     </ul>
     <h4>Prize Money To the Top Seven</h4>
-    <p>Cash will be awarded to the top 7 finishers by <b>total points</b>, using the Official IYFD Sliding Scale Payout Formula 1 via quadratic equations with a smidge of calculus.    There are no tie-breakers.  Players who tie will share evenly the total payoff amounts for the respective places involved.  You get it.</p>
-    <h5>Pay up by 3-21  – or lose your license </h5>
-    <p>Your entry fee(s) are due by Monday, March 21.   The price is the same as always.... $10 per entry. </p>
+    <p>Cash will be awarded to the top 7 finishers by <b>total points</b>, using the Official IYFD Sliding Scale Payout Formula 1 using quadratic equations with a smidge of calculus.    There are no tie-breakers.  Players who tie will share evenly the total payoff amounts for the respective places involved.  You get it.</p>
+    <h5>Pay up by 3-20  – or face the music.</h5>
+    <p>Your entry fee(s) are due by Monday, March 20.   The price is the same as always.... $10 per entry. </p>
     <p>Send your payment to:  <b>Gary Volluz      7309 Aemilian Way     Austin, Texas 78730</b>
       Or use PAYPAL by sending payment to LaurieJH@SWBELL.net  and please indicate you are sending money to friends and family, thus avoiding fees.  And put your IYFD player name in the “notes” section.
     </p>
-    <p>Ladies and Gents, Start Your Engines!</p>
+    <h3>Ladies and Gents, Start Your Engines!</h3>
   </div>
   );
 };

@@ -34,5 +34,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_TOKEN }}
           source: "client/build/*"
-          target: "re-iyfd/build"
+          target: "re-iyfd/client/build"
   

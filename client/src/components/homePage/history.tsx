@@ -3,6 +3,11 @@ import { Table } from "react-bootstrap";
 
 const WINNERS = [
   {
+    year: "2022",
+    user: "(tie) Phil In Your Bracket, Eric Lutz, Steve F",
+    team: "Kansas"
+  },
+  {
     year: "2021",
     user: "IYFD worker strike",
     team: "Baylor"

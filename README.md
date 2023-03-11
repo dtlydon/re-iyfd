@@ -16,27 +16,30 @@ wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add 
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 sudo apt update
 sudo apt install nginx nodejs git mongodb-org npm
-npm install -g yarn
+sudo npm install -g yarn
 ```
 
 #### Install PM2
 `npm i -g pm2`
+
+### Clone the code
 `git clone https://github.com/dtlydon/re-iyfd.git`
 
-Build react locally and scp
-IT TAKES WAY TOO LONG ON THE SERVER
-`scp -i .pem -r build {ec2-directory}`
-Make sure permission work ^ `chmod`
+### Update actions to build and copy to the new EC2 server
 
-pm2 serve build 4000 --spa
+### Start Mongo
+sudo systemctl start mongod
+sudo ser
+### Start the app and server
+sudo pm2 serve build 4000 --spa
 cd ../server
-yarn install
-pm2 start
+sudo yarn install
+sudon pm2 start index.js
 
 sudo nginx -c ~/{code}/nginx
 
 ## Post deploy
-Create target + LB - Origin is http - 80
+Create target group + LB - Origin is http - 80
 Create cloudfront distro
 - Cache policy = Disable cache
 - Origin request policy = AllViewer
