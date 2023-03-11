@@ -30,7 +30,7 @@ jobs:
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
-          host: ec2-54-82-172-115.compute-1.amazonaws.com
+          host: ec2-3-80-217-207.compute-1.amazonaws.com
           username: ubuntu
           key: ${{ secrets.AWS_TOKEN }}
           source: "client/build/*"

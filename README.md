@@ -11,8 +11,17 @@ sudo apt install python2
 sudo apt-get install build-essential
 update .env on server
 
+```
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install nginx nodejs git mongodb-org npm
+npm install -g yarn
+```
+
 #### Install PM2
-npm i -g pm2
+`npm i -g pm2`
+`git clone https://github.com/dtlydon/re-iyfd.git`
 
 Build react locally and scp
 IT TAKES WAY TOO LONG ON THE SERVER
