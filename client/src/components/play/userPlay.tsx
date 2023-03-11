@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { UserChoice } from "../../models/interfaces";
 import choicesService from "../../services/choicesService";
 import { getCurrentRound } from "../../common/utils";
@@ -26,11 +26,11 @@ const UserPlay: React.FC = (props: any) => {
     if (rounds.has(matchUp.round)) return;
     rounds.add(matchUp.round);
   });
-  const refreshUserChoices = async () => {
+  const refreshUserChoices = useMemo(async () => {
     const { userChoices } = await choicesService.getAll(userId);
     setUserChoices(userChoices);
     return userChoices;
-  };
+  }, []);
 
   const onPick = async (matchUpId: string, choice: string) => {
     setIsUpdatingPicks(true);
@@ -65,7 +65,7 @@ const UserPlay: React.FC = (props: any) => {
     };
 
     load();
-  }, [accountToken, userId]);
+  }, [accountToken, userId, refreshUserChoices]);
   const choicesByRound = userChoices.filter(
     uc => uc.matchUp.round === selectedRound
   );

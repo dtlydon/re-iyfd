@@ -30,7 +30,7 @@ const Play: React.FC = () => {
       return;
     }
     loadUsers();
-  }, [accountToken, users]);
+  }, [accountToken, users, history]);
 
   const onNavigate = (eventKey: any) => {
     history.push(`/play/${eventKey}`);
