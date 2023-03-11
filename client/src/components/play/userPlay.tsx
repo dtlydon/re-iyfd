@@ -65,7 +65,8 @@ const UserPlay: React.FC = (props: any) => {
     };
 
     load();
-  }, [accountToken, userId, refreshUserChoices]);
+    // eslint-disable react-hooks/exhaustive-deps
+  }, [accountToken, userId]);
   const choicesByRound = userChoices.filter(
     uc => uc.matchUp.round === selectedRound
   );
