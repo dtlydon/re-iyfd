@@ -17,12 +17,12 @@ jobs:
 
       - name: Run install
         uses: borales/actions-yarn@v4
-        working-directory: ./app
+        working-directory: ./client
         with:
           cmd: install
       - name: Build production bundle
         uses: borales/actions-yarn@v4
-        working-directory: ./app
+        working-directory: ./client
         with:
           cmd: build
       # - name: copy file via ssh key
