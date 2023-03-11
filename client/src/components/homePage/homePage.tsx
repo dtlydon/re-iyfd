@@ -7,12 +7,14 @@ const HomePage: React.FC = () => {
 
   return (
   <div className="home-page">
-    <img src={logo} alt="Logo"/>&nbsp;
+    <div className="text-center">
+      <img src={logo} alt="Logo"/>
+    </div>
     <h2>
       America’s Top Forty
     </h2>
     <h3>presents</h3>
-    <h3>In-Your-Face-Disgrace 39</h3>
+    <h3>In-Your-Face-Disgrace 40</h3>
     <p>The Big 4 – 0.  Yes, this is the 40th edition of In-Your-Face-Disgrace, the March Madness prediction pool that has topped the Top 40 charts like nobody else.</p>
     <p>Our generous corporate sponsor this year is Casey Kasem’s A-T 40.</p>
     <h4>Get Started</h4>
@@ -48,10 +50,10 @@ const HomePage: React.FC = () => {
     <p>Cash will be awarded to the top 7 finishers by <b>total points</b>, using the Official IYFD Sliding Scale Payout Formula 1 using quadratic equations with a smidge of calculus.    There are no tie-breakers.  Players who tie will share evenly the total payoff amounts for the respective places involved.  You get it.</p>
     <h5>Pay up by 3-20  – or face the music.</h5>
     <p>Your entry fee(s) are due by Monday, March 20.   The price is the same as always.... $10 per entry. </p>
-    <p>Send your payment to:  <b>Gary Volluz      7309 Aemilian Way     Austin, Texas 78730</b>
+    <p>Send your payment to:  <b>Gary Volluz      7309 Aemilian Way     Austin, Texas 78730</b>&nbsp;
       Or use PAYPAL by sending payment to LaurieJH@SWBELL.net  and please indicate you are sending money to friends and family, thus avoiding fees.  And put your IYFD player name in the “notes” section.
     </p>
-    <h3>Ladies and Gents, Start Your Engines!</h3>
+    <h3>IYFD 40   -    Tune in and Win!</h3>
   </div>
   );
 };
