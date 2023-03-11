@@ -24,7 +24,8 @@ const {
 
 const baseRoute = "/account";
 
-const secret = fs.readFileSync("./auth.pem", "utf8");
+// const secret = fs.readFileSync("./auth.pem", "utf8");
+const secret = process.env.JWT_SECRET;
 console.log('secret', secret);
 
 const EMAIL_API_KEY = process.env.EMAIL_API_KEY;
