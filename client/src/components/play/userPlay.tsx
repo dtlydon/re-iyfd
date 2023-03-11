@@ -26,11 +26,11 @@ const UserPlay: React.FC = (props: any) => {
     if (rounds.has(matchUp.round)) return;
     rounds.add(matchUp.round);
   });
-  const refreshUserChoices = useMemo(async () => {
+  const refreshUserChoices = async () => {
     const { userChoices } = await choicesService.getAll(userId);
     setUserChoices(userChoices);
     return userChoices;
-  }, []);
+  };
 
   const onPick = async (matchUpId: string, choice: string) => {
     setIsUpdatingPicks(true);
