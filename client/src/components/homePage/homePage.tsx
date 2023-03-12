@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
     <div className="text-center">
       <img src={logo} alt="Logo"/>
     </div>
-    <h2>
+    <h2 className="text-center">
       America’s Top Forty
     </h2>
     <h3>presents</h3>
