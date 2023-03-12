@@ -28,7 +28,7 @@ const IYFDNavbar: React.FC<IYFDNavbarProps> = (props: IYFDNavbarProps) => {
   return (
     <Navbar variant="dark" bg="primary" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Brand href="/">IYFD 39</Navbar.Brand>
+      <Navbar.Brand href="/">IYFD 40</Navbar.Brand>
       <Navbar.Collapse id="iyfd-nav">
         <Nav className="mr-auto">
           {!!accountEmail && (

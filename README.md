@@ -44,3 +44,4 @@ Create cloudfront distro
 - Cache policy = Disable cache
 - Origin request policy = AllViewer
 Create route53 A record
+Generate a openssl private key and name it key.pem and put it in the root of the repo
